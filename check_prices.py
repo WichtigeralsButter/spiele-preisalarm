@@ -16,7 +16,7 @@ else:
 neue_deals_gefunden = False
 
 for spiel, max_preis in spiele.items():
-            url = "https://www.cheapshark" + f".com/api/1.0/deals?title={spiel}&exact=0&upperPrice={max_preis}"
+    url = "https://www.cheapshark/" + f".com/api/1.0/deals?title={spiel}&exact=0&upperPrice={max_preis}"
     response = requests.get(url)
 
     if response.status_code == 200:
@@ -24,11 +24,11 @@ for spiel, max_preis in spiele.items():
             deal_id = deal['dealID']
             if spiel.lower() in deal['title'].lower() and deal_id not in verlauf:
                 preis = float(deal['salePrice'])
-                link = f"https://cheapshark.com{deal_id}"
+                link = "https://www.cheapshark/" + f".com/redirect?dealID={deal_id}"
                 status = "KOSTENLOS! 🎉" if preis == 0 else f"für ca. {preis}$ (~{max_preis}€)!"
 
                 nachricht = {
-                    "content": f"@everyone 🚨 **Preisalarm: {deal['title']}** ist aktuell **{status}**\nHier sichern: {link}"
+                    "content": f"@everyone 🚨 Preisalarm: {deal['title']} ist aktuell {status}\nHier sichern: {link}"
                 }
                 requests.post(WEBHOOK_URL, json=nachricht)
 
